@@ -32,6 +32,32 @@ nav {
     height: 50px;
 }
 
+.odd-exp::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.proj-img {
+    width: 64px;
+    height: 64px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.odd-exp > * {
+    float: left;
+}
+
+.even-exp > *{
+    float: right;
+}
+
+.even-exp::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 @media only screen and (min-width: 600px) {
     .social-list li {
         display: inline-block;
