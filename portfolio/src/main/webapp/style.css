@@ -4,6 +4,14 @@
   width: 650px;
 }
 
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+p {
+    margin-top: 0;
+}
+
 nav {
     display: flex;
     justify-content: center;
