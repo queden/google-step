@@ -4,6 +4,16 @@
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+nav {
+    display: flex;
+    justify-content: center;
 }
+
+.nav-list {
+    list-style-type: none;
+}
+
+.nav-list li {
+    display: inline;
+}
+
