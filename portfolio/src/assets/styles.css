@@ -23,6 +23,7 @@ nav {
 
 .nav-list li {
     display: inline;
+    margin-right: 5%;
 }
 
 .social-list {
