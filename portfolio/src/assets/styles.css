@@ -1,34 +1,81 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
 .content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  margin-top: 0.5%;
+  width: 55%;
+}
+
+h1 {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+a {
+    color: #2EBDD1;
+    text-decoration: none;
+}
+
+a:hover {
+    color:#2EBDD1;
+    text-decoration:underline;
+}
+
+span {
+    color:#2EBDD1;
 }
 
 h1, h2, h3 {
     margin-top: 0;
+    margin-bottom: 1%;
+    overflow-wrap: break-word;
 }
+
+/* img {
+    border-radius: 30px;
+} */
 
 p {
     margin-top: 0;
+    overflow-wrap: break-word;
+}
+
+ul {
+    padding: 0;
 }
 
 nav {
+    padding-left: 0;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
 
 .nav-list {
+    padding-left: 0;
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
     list-style-type: none;
 }
 
 .nav-list li {
-    display: inline;
-    margin-right: 5%;
+    display: inline-block;
+    margin: 0;
 }
 
 .social-list {
-    list-style-type: none;
+    /* list-style-type: none; */
     display: inline;
+}
+
+.social-list li {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
 }
 
 .social-icon {
@@ -51,31 +98,49 @@ nav {
     display: table;
 }
 
-.item-text {
+.odd-item-text {
+    padding-top: 1%;
+}
+
+.odd-item-text h3 {
+    text-align: right;
     word-wrap: break-word;
-    width: 250px;
+    width: 400px;
+}
+
+.odd-item-text p {
+    text-align: right;
+    word-wrap: break-word;
+    width: 400px;
+}
+
+.even-item-text {
+    padding-top: 1%;
+    float: left;
+    word-wrap: break-word;
+    width: 400px;
 }
 
 .proj-img {
-    width: 64px;
-    height: 64px;
-    padding-right: 10px;
-    padding-left: 10px;
+    width: 100px;
+    height: 100px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
+
 .odd-exp > * {
     float: right;
 }
 
-.even-exp > *{
+.even-exp > * {
     float: left;
 }
 
-.even-exp::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
+/* 
+    When screens are large enough, 
+    display social list in a row, 
+    otherwise displayed in a column
+*/
 @media only screen and (min-width: 600px) {
     .social-list li {
         display: inline-block;
@@ -84,10 +149,11 @@ nav {
         margin-right: auto;
         margin-top: 1%;
     }
+
     .social-list {
         padding: 0;
-        justify-content: center;
     }
+
     .social-icon {
         height: 64px;
         width: 64px;

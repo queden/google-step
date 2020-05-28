@@ -13,8 +13,8 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
       this.items = [
-          new ListItem('TalkToEinstein', 'Trying to talk to Albert', 'assets/img/einstein.jpg'),
-          new ListItem('Dignify', 'App that provides centralized access to resources for people experiencing homelessness', 'assets/img/dignify.png')
+          new ListItem('TalkToEinstein', 'March 2020 - Present', 'Trying to talk to Albert', 'assets/img/einstein.jpg'),
+          new ListItem('Dignify', 'October 2019', 'App that provides centralized access to resources for people experiencing homelessness', 'assets/img/dignify.png')
       ];
   }
 

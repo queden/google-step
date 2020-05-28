@@ -14,8 +14,8 @@ export class WorkComponent implements OnInit {
   ngOnInit(): void {
       // populates items list with work experience
       this.items = [
-          new ListItem('Google', 'Working at Google', 'assets/img/goog.png'),
-          new ListItem('MLevel', 'Worked at MLevel', 'assets/img/mlevel.png')
+          new ListItem('Google', 'May 2020 - Present', 'Working at Google', 'assets/img/goog.png'),
+          new ListItem('MLevel', 'January 2019 - August 2019', 'Worked at MLevel', 'assets/img/mlevel.png')
       ];
   }
 

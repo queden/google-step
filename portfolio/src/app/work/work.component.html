@@ -6,18 +6,18 @@
                 <div>
                     <img class="proj-img" src="{{item.imgPath}}"/>
                 </div>
-                <div class="item-text">
+                <div class="even-item-text">
                     <h3>{{item.name}}</h3>
-                    <p>{{item.description}}</p>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
                 </div>
             </div>
             <div *ngIf="i%2!=0" class="odd-exp">
                 <div>
                     <img class="proj-img" src="{{item.imgPath}}"/>
                 </div>
-                <div class="item-text">
+                <div class="odd-item-text">
                     <h3>{{item.name}}</h3>
-                    <p>{{item.description}}</p>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
                 </div>
             </div>     
         </li>
