@@ -41,7 +41,11 @@ nav {
     height: 50px;
 }
 
-.odd-exp::after {
+.experience-list {
+    list-style-type: none;
+}
+
+.experience-list li::after {
   content: "";
   clear: both;
   display: table;
@@ -54,11 +58,11 @@ nav {
     padding-left: 10px;
 }
 .odd-exp > * {
-    float: left;
+    float: right;
 }
 
 .even-exp > *{
-    float: right;
+    float: left;
 }
 
 .even-exp::after {
