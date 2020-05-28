@@ -1,1 +1,26 @@
-<p>projects works!</p>
+<div class="content">
+    <h1>Projects</h1>
+    <ul class="experience-list">
+        <li *ngFor="let item of items; index as i">
+            <div *ngIf="i%2==0" class="even-exp">
+                <div>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
+                </div>
+                <div class="item-text">
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+                </div>
+            </div>
+            <div *ngIf="i%2!=0" class="odd-exp">
+                <div>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
+                </div>
+                <!-- TODO: figure out how to get odd text to float right-->
+                <div class="item-text">
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+                </div>
+            </div>     
+        </li>
+    </ul>
+</div>

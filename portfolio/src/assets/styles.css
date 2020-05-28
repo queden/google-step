@@ -46,9 +46,14 @@ nav {
 }
 
 .experience-list li::after {
-  content: "";
-  clear: both;
-  display: table;
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.item-text {
+    word-wrap: break-word;
+    width: 250px;
 }
 
 .proj-img {
