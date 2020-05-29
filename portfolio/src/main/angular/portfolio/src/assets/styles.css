@@ -127,7 +127,12 @@ nav {
 .odd-item-text p {
     text-align: right;
     word-wrap: break-word;
+    margin-bottom: 1%;
     width: 400px;
+}
+
+.odd-item-text button {
+    float:right;
 }
 
 .even-item-text {
@@ -135,6 +140,10 @@ nav {
     float: left;
     word-wrap: break-word;
     width: 400px;
+}
+
+.even-item-text p {
+    margin-bottom: 1%;
 }
 
 .proj-img {
