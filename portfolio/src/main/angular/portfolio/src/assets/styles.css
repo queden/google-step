@@ -16,23 +16,24 @@ h1 {
 }
 
 a {
-    color: #2EBDD1;
+    color: #0e7e8c;
     text-decoration: none;
 }
 
 a:hover {
-    color:#2EBDD1;
+    color:#0e7e8c;
     text-decoration:underline;
 }
 
 span {
-    color:#2EBDD1;
+    color:#0e7e8c;
 }
 
 h1, h2, h3 {
     margin-top: 0;
     margin-bottom: 1%;
     overflow-wrap: break-word;
+    font-weight: bolder;
 }
 
 /* img {
