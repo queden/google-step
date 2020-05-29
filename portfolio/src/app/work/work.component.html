@@ -1,20 +1,26 @@
 <div class="content">
-    <div class="odd-exp" id="google">
-        <div>
-                    <img class="proj-img" src="img/goog.png"/>
-                </div>
+    <h1>Experience</h1>
+    <ul class="experience-list">
+        <li *ngFor="let item of items; index as i">
+            <div *ngIf="i%2==0" class="even-exp">
                 <div>
-                    <h3>Google</h3>
-                    <p>Google Work</p>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
+                </div>
+                <div class="even-item-text">
+                    <h3>{{item.name}}</h3>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
                 </div>
             </div>
-            <div class="even-exp" id="google">
+            <div *ngIf="i%2!=0" class="odd-exp">
                 <div>
-                    <img class="proj-img" src="img/mlevel.png"/>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
                 </div>
-                <div>
-                    <h3>MLevel</h3>
-                    <p>MLevel Work</p>
+                <div class="odd-item-text">
+                    <h3>{{item.name}}</h3>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
                 </div>
-            </div>
-        </div>
+            </div>     
+        </li>
+    </ul>
+</div>
+
