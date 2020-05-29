@@ -5,8 +5,13 @@
 .content {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.5%;
+  height: 100vh;
   width: 55%;
+}
+
+/* Class to give padding so nav bar does not overlay content */
+.menu-margin {
+    padding: 4%;
 }
 
 h1 {
@@ -50,10 +55,13 @@ ul {
 }
 
 nav {
+    background: white;
     padding-left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
+    position: fixed;
+    top: 0;
 }
 
 .nav-list {
