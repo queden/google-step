@@ -52,29 +52,36 @@ p {
 
 ul {
     padding: 0;
+    margin-left: 0;
+    margin-bottom: 1%;
 }
 
 nav {
     background: white;
-    padding-left: 0;
+    padding: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     position: fixed;
+    margin: 0 auto;
     top: 0;
+    left: 0;
 }
 
 .nav-list {
-    padding-left: 0;
-    margin-left: 0;
+    padding: 0;
+    margin: 0 auto;
     width: 100%;
     text-align: center;
     list-style-type: none;
+    overflow: hidden;
 }
 
 .nav-list li {
+    padding: 0;
     display: inline-block;
-    margin: 0;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
 }
 
 .social-list {
@@ -143,6 +150,10 @@ nav {
 
 .even-exp > * {
     float: left;
+}
+
+#container {
+    width:100%;
 }
 
 /* 
