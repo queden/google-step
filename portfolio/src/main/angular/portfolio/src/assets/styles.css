@@ -58,7 +58,7 @@ ul {
 
 nav {
     background: white;
-    padding: 0;
+    padding-left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -69,8 +69,8 @@ nav {
 }
 
 .nav-list {
-    padding: 0;
-    margin: 0 auto;
+    padding-left: 0;
+    margin-left: 0 auto;
     width: 100%;
     text-align: center;
     list-style-type: none;
