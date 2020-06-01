@@ -1,0 +1,190 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  width: 55%;
+}
+
+/* Class to give padding so nav bar does not overlay content */
+.menu-margin {
+    padding: 4%;
+}
+
+h1 {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+a {
+    color: #0e7e8c;
+    text-decoration: none;
+}
+
+a:hover {
+    color:#0e7e8c;
+    text-decoration:underline;
+}
+
+span {
+    color:#0e7e8c;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+    margin-bottom: 1%;
+    overflow-wrap: break-word;
+    font-weight: bolder;
+}
+
+/* img {
+    border-radius: 30px;
+} */
+
+p {
+    margin-top: 0;
+    overflow-wrap: break-word;
+}
+
+ul {
+    padding: 0;
+    margin-left: 0;
+    margin-bottom: 1%;
+}
+
+nav {
+    background: white;
+    padding-left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+}
+
+.nav-list {
+    padding-left: 0;
+    margin-left: 0 auto;
+    width: 100%;
+    text-align: center;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+.nav-list li {
+    padding: 0;
+    display: inline-block;
+    margin-left: 1.25%;
+    margin-right: 1.25%;
+}
+
+.social-list {
+    /* list-style-type: none; */
+    display: inline;
+}
+
+.social-list li {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+}
+
+.social-icon {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: block;
+    width: 50px;
+    height: 50px;
+}
+
+.experience-list {
+    list-style-type: none;
+}
+
+.experience-list li::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.odd-item-text {
+    padding-top: 1%;
+}
+
+.odd-item-text h3 {
+    text-align: right;
+    word-wrap: break-word;
+    width: 400px;
+}
+
+.odd-item-text p {
+    text-align: right;
+    word-wrap: break-word;
+    margin-bottom: 1%;
+    width: 400px;
+}
+
+.odd-item-text button {
+    float:right;
+}
+
+.even-item-text {
+    padding-top: 1%;
+    float: left;
+    word-wrap: break-word;
+    width: 400px;
+}
+
+.even-item-text p {
+    margin-bottom: 1%;
+}
+
+.proj-img {
+    width: 100px;
+    height: 100px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.odd-exp > * {
+    float: right;
+}
+
+.even-exp > * {
+    float: left;
+}
+
+#container {
+    width:100%;
+}
+
+/* 
+    When screens are large enough, 
+    display social list in a row, 
+    otherwise displayed in a column
+*/
+@media only screen and (min-width: 600px) {
+    .social-list li {
+        display: inline-block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1%;
+    }
+
+    .social-list {
+        padding: 0;
+    }
+
+    .social-icon {
+        height: 64px;
+        width: 64px;
+    }
+}
