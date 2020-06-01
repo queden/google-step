@@ -10,6 +10,7 @@
                     <div class="even-item-text">
                         <h3>{{item.name}}</h3>
                         <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                        <a href="{{item.link}}">More info</a>
                     </div>
                 </div>
                 <div *ngIf="i%2!=0" class="odd-exp">
@@ -19,6 +20,7 @@
                     <div class="odd-item-text">
                         <h3>{{item.name}}</h3>
                         <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                        <p><a href="{{item.link}}">More info</a></p>
                     </div>
                 </div>     
             </li>
