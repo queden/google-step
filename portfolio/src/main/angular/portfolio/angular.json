@@ -29,6 +29,7 @@
               "src/assets/styles.css"
             ],
             "scripts": [
+              "src/assets/scripts.js"
             ]
           },
           "configurations": {
