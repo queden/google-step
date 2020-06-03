@@ -1,13 +1,23 @@
 /**
  * Fetches data from Java servlet and displays it in HTML div
  */
-async function getDataAsync() {
-    console.log('Fetching data from server');
-    
-    // fetching data from /data endpoint in Java servlet
-    const response = await fetch('/data');
+function getData() {
+    fetch('/data').then(response => response.json()).then((data) =>{
 
-    const data = await response.text();
+        const display = document.getElementById("display");
 
-    document.getElementById('display').innerHTML = data;
+        display.innerHTML = '';
+
+        for (var i = 0; i < data.length; i++) {
+            display.appendChild(
+                createListElement(data[i])
+            );
+        }
+    });
+}
+
+function createListElement(text) {
+    const liElem = document.createElement('li');
+    liElem.innerText = text;
+    return liElem;
 }
