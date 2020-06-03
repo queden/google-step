@@ -26,23 +26,21 @@ import java.util.ArrayList;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  ArrayList<String> data = new ArrayList<String>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> data = new ArrayList<String>();
-
-    data.add("Hello");
-    data.add("my name");
-    data.add("Caden");
-
-    String json = convertToJsonUsingGson(data);
-    
     response.setContentType("application/json;");
+    String json = new Gson().toJson(data);
     response.getWriter().println(json);
   }
 
-  private String convertToJsonUsingGson(ArrayList<String> data) {
-      Gson gson = new Gson();
-      String json = gson.toJson(data);
-      return json;
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String comment = request.getParameter("comment");
+
+    data.add(comment);
+
+    response.sendRedirect("/#server");
   }
 }

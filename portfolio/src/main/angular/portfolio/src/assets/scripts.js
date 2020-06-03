@@ -1,7 +1,9 @@
 /**
  * Fetches data from Java servlet and displays it in HTML div
  */
-function getData() {
+export function getData() {
+    console.log("Getting data from servlet");
+
     fetch('/data').then(response => response.json()).then((data) =>{
 
         const display = document.getElementById("display");

@@ -11,4 +11,4 @@
 <app-work id="work"></app-work>
 <app-projects id="projects"></app-projects>
 <app-contact id="connect"></app-contact>
-<app-server id="server"></app-server>
+<app-server (onLoadEvent)="child.getDataWrapper()" id="server" #child></app-server>
