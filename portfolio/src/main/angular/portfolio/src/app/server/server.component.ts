@@ -10,8 +10,8 @@ export class ServerComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-      scripts.niceFun()
+  ngOnInit() {
+      
   }
 
 }

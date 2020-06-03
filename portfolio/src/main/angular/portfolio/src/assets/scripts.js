@@ -1,16 +1,13 @@
 /**
- * Fetches data from Java servlet
+ * Fetches data from Java servlet and displays it in HTML div
  */
-function getData() {
-    console.log('Fetching a random quote');
+async function getDataAsync() {
+    console.log('Fetching data from server');
+    
+    // fetching data from /data endpoint in Java servlet
+    const response = await fetch('/data');
 
-    const responsePromise = fetch('/data');
+    const data = await response.text();
 
-
-    responsePromise.then(handleResponse);
-}
-
-function niceFun() {
-    document.getElementById('display').innerText = "Hello darkness my old friend";
-
+    document.getElementById('display').innerHTML = data;
 }
