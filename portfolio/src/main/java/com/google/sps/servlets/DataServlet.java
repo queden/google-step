@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import com.google.gson.Gson;
 import javax.servlet.annotation.WebServlet;
@@ -26,20 +32,35 @@ import java.util.ArrayList;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  ArrayList<String> data = new ArrayList<String>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    ArrayList<String> comments = new ArrayList<String>();
+    for (Entity entity : results.asIterable()) {
+        String comment = (String) entity.getProperty("comment");
+        comments.add(comment);
+    }
+
     response.setContentType("application/json;");
-    String json = new Gson().toJson(data);
+    String json = new Gson().toJson(comments);
     response.getWriter().println(json);
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("comment");
+    long timestamp = System.currentTimeMillis();
 
-    data.add(comment);
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
 
     response.sendRedirect("/#server");
   }
