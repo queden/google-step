@@ -25,6 +25,7 @@
               "WEB-INF"
             ],
             "styles": [
+
               "src/assets/styles.css"
             ],
             "scripts": [
