@@ -5,6 +5,7 @@ export class ListItem {
         public name: string,
         public dates: string,
         public description: string,
-        public imgPath: string
+        public imgPath: string,
+        public link?: string
     ) { }
 }
