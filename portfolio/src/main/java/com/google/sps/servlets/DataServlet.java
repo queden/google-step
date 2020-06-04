@@ -34,6 +34,20 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String maxCommentsString = request.getParameter("max-comments");
+
+    // Sets maxComments to a default value for if user selects choice of all 
+    // (which is only possible string value to select). Otherwise, sets maxComments to the int value of the string
+    int maxComments = -1;
+    if (!maxCommentsString.equals("all")) {
+        try {
+            maxComments = Integer.parseInt(maxCommentsString);
+        }
+        catch (Exception e) {
+            System.out.println("Error parsing selection");
+        }
+    }
+
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -41,8 +55,11 @@ public class DataServlet extends HttpServlet {
 
     ArrayList<String> comments = new ArrayList<String>();
     for (Entity entity : results.asIterable()) {
-        String comment = (String) entity.getProperty("comment");
-        comments.add(comment);
+        // adds to comments list if "all" choice was chosen or if less than amount of requested comments
+        if (maxComments == -1 || comments.size() < maxComments) {
+            String comment = (String) entity.getProperty("comment");
+            comments.add(comment);
+        }
     }
 
     response.setContentType("application/json;");

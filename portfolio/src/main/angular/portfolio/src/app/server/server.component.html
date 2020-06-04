@@ -1,8 +1,18 @@
 <form action="/data" method="POST">
+    <h3>Submit a comment. I'd love to here from you</h3>
     <input name="comment"> 
     <br/><br/>
 
     <input type="submit"/>
 </form>
+
+<label for="max-comments">Choose how many comments to show: </label>
+<select name="max-comments" id="max-comments" (change)="getDataWrapper()">
+  <option value="5">5</option>
+  <option value="10">10</option>
+  <option value="25">25</option>
+  <option value="50">50</option>
+  <option value="all">All</option>
+</select>
 
 <div id="display"></div>

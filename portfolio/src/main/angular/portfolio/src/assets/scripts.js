@@ -4,7 +4,9 @@
 export function getData() {
     console.log("Getting data from servlet");
 
-    fetch('/data').then(response => response.json()).then((data) =>{
+    const maxComments = document.getElementById("max-comments").value;
+
+    fetch(`/data?max-comments=${maxComments}`).then(response => response.json()).then((data) =>{
 
         const display = document.getElementById("display");
 
