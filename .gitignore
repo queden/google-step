@@ -2,3 +2,4 @@ target/
 webapp/
 node_modules/
 .idea
+google-java-format-1.8-all-deps.jar
