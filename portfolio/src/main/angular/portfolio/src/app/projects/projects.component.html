@@ -1,25 +1,29 @@
 <div class="content">
-    <h1>Projects</h1>
-    <ul class="experience-list">
-        <li *ngFor="let item of items; index as i">
-            <div *ngIf="i%2==0" class="even-exp">
-                <div>
-                    <img class="proj-img" src="{{item.imgPath}}"/>
+    <div id="container">
+        <h1>Projects</h1>
+        <ul class="experience-list">
+            <li *ngFor="let item of items; index as i">
+                <div *ngIf="i%2==0" class="even-exp">
+                    <div>
+                        <img class="proj-img" src="{{item.imgPath}}"/>
+                    </div>
+                    <div class="even-item-text">
+                        <h3>{{item.name}}</h3>
+                        <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                        <a href="{{item.link}}">More info</a>
+                    </div>
                 </div>
-                <div class="even-item-text">
-                    <h3>{{item.name}}</h3>
-                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
-                </div>
-            </div>
-            <div *ngIf="i%2!=0" class="odd-exp">
-                <div>
-                    <img class="proj-img" src="{{item.imgPath}}"/>
-                </div>
-                <div class="odd-item-text">
-                    <h3>{{item.name}}</h3>
-                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
-                </div>
-            </div>     
-        </li>
-    </ul>
+                <div *ngIf="i%2!=0" class="odd-exp">
+                    <div>
+                        <img class="proj-img" src="{{item.imgPath}}"/>
+                    </div>
+                    <div class="odd-item-text">
+                        <h3>{{item.name}}</h3>
+                        <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                        <p><a href="{{item.link}}">More info</a></p>
+                    </div>
+                </div>     
+            </li>
+        </ul>
+    </div>
 </div>
