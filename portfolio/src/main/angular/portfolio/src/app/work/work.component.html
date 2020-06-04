@@ -1,28 +1,26 @@
 <div class="content">
-    <div id="container"> 
-        <h1>Experience</h1>
-        <ul class="experience-list">
-            <li *ngFor="let item of items; index as i">
-                <div *ngIf="i%2==0" class="even-exp">
-                    <div>
-                        <img class="proj-img" src="{{item.imgPath}}"/>
-                    </div>
-                    <div class="even-item-text">
-                        <h3>{{item.name}}</h3>
-                        <p><i>{{item.dates}}</i><br>{{item.description}}</p>
-                    </div>
+    <h1>Experience</h1>
+    <ul class="experience-list">
+        <li *ngFor="let item of items; index as i">
+            <div *ngIf="i%2==0" class="even-exp">
+                <div>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
                 </div>
-                <div *ngIf="i%2!=0" class="odd-exp">
-                    <div>
-                        <img class="proj-img" src="{{item.imgPath}}"/>
-                    </div>
-                    <div class="odd-item-text">
-                        <h3>{{item.name}}</h3>
-                        <p><i>{{item.dates}}</i><br>{{item.description}}</p>
-                    </div>
-                </div>     
-            </li>
-        </ul>
-    </div>
+                <div class="even-item-text">
+                    <h3>{{item.name}}</h3>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                </div>
+            </div>
+            <div *ngIf="i%2!=0" class="odd-exp">
+                <div>
+                    <img class="proj-img" src="{{item.imgPath}}"/>
+                </div>
+                <div class="odd-item-text">
+                    <h3>{{item.name}}</h3>
+                    <p><i>{{item.dates}}</i><br>{{item.description}}</p>
+                </div>
+            </div>     
+        </li>
+    </ul>
 </div>
 

@@ -1,15 +1,10 @@
-<nav style="padding-left: 0;">
+<nav>
     <ul class="nav-list">
-        <li><a href="#home">home</a></li>
-        <li><a href="#work">work</a></li>
-        <li><a href="#projects">projects</a></li>
-        <li><a href="#connect">contact</a></li>
+        <li style="margin-right: 2.5%;"><a routerLink="/" routerLinkActive="active">home</a></li>
+        <li style="margin-right: 2.5%;"><a routerLink="/work" routerLinkActive="active">work</a></li>
+        <li style="margin-right: 2.5%;"><a routerLink="/projects" routerLinkActive="active">projects</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">contact</a></li>
     </ul>
 </nav>
 
-<app-home id="home"></app-home>
-<app-work id="work"></app-work>
-<app-projects id="projects"></app-projects>
-<app-contact id="connect"></app-contact>
-
-<!-- <router-outlet></router-outlet> -->
+<router-outlet></router-outlet>

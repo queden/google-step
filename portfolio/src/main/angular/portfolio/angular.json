@@ -27,8 +27,7 @@
 
               "src/assets/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
