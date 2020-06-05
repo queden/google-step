@@ -1,20 +1,50 @@
-<form action="/data" method="POST">
-    <h3>Submit a comment. I'd love to here from you</h3>
-    <input name="comment"> 
-    <br/><br/>
+<div class="content">
+    <div id="container">
+        <section id="social">
 
-    <input type="submit"/>
-</form>
+        </section>
+        <h1>Let's <span>connect</span>!</h1>
+        <p>
+            I always love meeting new people. Connect with me through the links below. 
+        </p>
+        <ul class="social-list">
+            <li>
+                <a href="mailto:cadenmfelton@gmail.com">
+                    <img class="social-icon" src="assets/img/email.png" alt="Email" />
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/cadenfelton/">
+                    <img class="social-icon" src="assets/img/linkedin.png" alt="LinkedIn" />
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/queden">
+                    <img class="social-icon" src="assets/img/GitHub-Mark-128px.png" alt="GitHub" />
+                </a>
+            </li>
+        </ul>
 
-<label for="max-comments">Choose how many comments to show: </label>
-<select name="max-comments" id="max-comments" (change)="getDataWrapper()">
-  <option value="5">5</option>
-  <option value="10">10</option>
-  <option value="25">25</option>
-  <option value="50">50</option>
-  <option value="all">All</option>
-</select>
+        <section id="comments">
+            <form action="/data" method="POST">
+                <h3>Submit a comment. I'd love to here from you</h3>
+                <input name="comment"> 
+                <br/><br/>
 
-<div id="display"></div>
+                <input type="submit"/>
+            </form>
 
-<button id="delete-comments" (click)="deleteDataWrapper()">Delete comments</button>
+            <label for="max-comments">Choose how many comments to show: </label>
+            <select name="max-comments" id="max-comments" (change)="getDataWrapper()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="all">All</option>
+            </select>
+
+            <div id="display"></div>
+            <button id="delete-comments" (click)="deleteDataWrapper()">Delete comments</button>
+        </section>
+    </div>
+</div>

@@ -17,6 +17,12 @@ export function getData() {
                 createListElement(data[i])
             );
         }
+
+        if (data === undefined || data.length == 0) {
+            const pTag = document.createElement('p');
+            pTag.innerText = "No comments to show :(";
+            display.appendChild(pTag);
+        }
     });
 }
 

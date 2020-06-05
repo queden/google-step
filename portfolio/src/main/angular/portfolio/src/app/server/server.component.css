@@ -1,0 +1,14 @@
+p {
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+section {
+    margin: 10%;
+}
