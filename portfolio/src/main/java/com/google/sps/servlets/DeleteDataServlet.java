@@ -32,7 +32,11 @@ import java.util.ArrayList;
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
-    /** Deletes all comments on websites when POST to /delete-data is called */
+    /** 
+    * Deletes all comments on websites when POST to /delete-data is called 
+    * @param request POST request
+    * @param response POST response
+    */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Gets the keys of all comments

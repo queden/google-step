@@ -32,6 +32,10 @@ import java.util.ArrayList;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  /** Retrieves all comments from Datastore and displays on website 
+  * @param request GET request
+  * @param response GET response
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String maxCommentsString = request.getParameter("max-comments");
@@ -48,8 +52,8 @@ public class DataServlet extends HttpServlet {
         }
     }
 
+    // Queries datastore for all comments
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
@@ -67,6 +71,10 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
+  /** Posts a comment to Datastore submitted by the user 
+  * @param request POST request
+  * @param response POST response
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String comment = request.getParameter("comment");
