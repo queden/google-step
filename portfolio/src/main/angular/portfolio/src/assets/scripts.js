@@ -20,6 +20,16 @@ export function getData() {
     });
 }
 
+export function deleteData() {
+    console.log("Posting to /delete-data");
+
+    const request = new Request('/delete-data', {method: 'POST'});
+
+    // Posts to /delete-data to delete all comments then
+    // gets contents of server to ensure all is deleted
+    fetch(request).then(getData());
+}
+
 function createListElement(text) {
     const liElem = document.createElement('li');
     liElem.innerText = text;

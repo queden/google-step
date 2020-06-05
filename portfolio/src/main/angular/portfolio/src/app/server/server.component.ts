@@ -19,9 +19,15 @@ export class ServerComponent implements AfterViewInit {
   }
 
   getDataWrapper = () => {
-      console.log("getDataWrapper callled");
+      console.log("getDataWrapper called");
 
       scripts.getData();
+  }
+
+  deleteDataWrapper = () => {
+      console.log("deleteDataWrapper called");
+
+      scripts.deleteData();
   }
 
 }
