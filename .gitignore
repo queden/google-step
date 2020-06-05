@@ -1,6 +1,5 @@
 target/
-webapp/
 node_modules/
-webapp/
 .idea
 google-java-format-1.8-all-deps.jar
+webapp/
