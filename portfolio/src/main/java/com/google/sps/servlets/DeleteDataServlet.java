@@ -50,7 +50,7 @@ public class DeleteDataServlet extends HttpServlet {
             datastore.delete(entity.getKey());
         }   
 
-        response.sendRedirect("/#server");
+        response.sendRedirect("/#connect");
 
         response.setContentType("application/json;");
         response.getWriter().println();

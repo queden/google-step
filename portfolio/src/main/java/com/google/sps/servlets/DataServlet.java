@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList; 
+import com.google.sps.data.Comment;
 
 /** Servlet that creates and retrieves comments on website */
 @WebServlet("/data")
@@ -57,12 +58,16 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<String> comments = new ArrayList<String>();
+    ArrayList<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results.asIterable()) {
         // adds to comments list if "all" choice was chosen or if less than amount of requested comments
         if (maxComments == -1 || comments.size() < maxComments) {
+            String name = (String) entity.getProperty("name");
             String comment = (String) entity.getProperty("comment");
-            comments.add(comment);
+            long timestamp = (long) entity.getProperty("timestamp");
+
+            Comment com = new Comment(name, comment, timestamp);
+            comments.add(com);
         }
     }
 
@@ -77,16 +82,18 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String name = request.getParameter("user");
     String comment = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
-    response.sendRedirect("/#server");
+    response.sendRedirect("/#connect");
   }
 }
