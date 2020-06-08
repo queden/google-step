@@ -39,3 +39,14 @@ hr {
     margin: 2.5%;
     margin-top: 4%;
 }
+
+#chart-div {
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+}
+
+div.chart-div table {
+    width: auto;
+    margin: 0 auto;
+}

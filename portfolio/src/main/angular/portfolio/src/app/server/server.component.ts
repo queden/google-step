@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import * as scripts from '../../assets/scripts.js';
+declare var google:any;
 
 @Component({
   selector: 'app-server',
@@ -18,6 +19,11 @@ export class ServerComponent implements AfterViewInit {
       this.onLoadEvent.emit(this);
   }
 
+  onLoadFunctions = () => {
+      this.getDataWrapper();
+      this.loadGauge();
+  }
+
   getDataWrapper = () => {
       console.log("getDataWrapper called");
 
@@ -30,4 +36,10 @@ export class ServerComponent implements AfterViewInit {
       scripts.deleteData();
   }
 
+  loadGauge = () => {
+      console.log("loadGauge called");
+
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(scripts.drawGauge);
+  }
 }

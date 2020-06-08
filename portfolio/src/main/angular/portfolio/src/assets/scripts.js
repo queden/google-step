@@ -1,3 +1,23 @@
+export function drawGauge() {
+    var data = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['Mood', 90]
+    ]);
+
+    var options = {
+        width: '100%', 
+        height: '100%',
+        // redFrom: 0, redTo: 60,
+        // yellowFrom: 60, yellowTo: 85,
+        greenFrom: 87.5, greenTo: 100,
+    };
+    
+    var chart = new google.visualization.Gauge(document.getElementById('chart-div'));
+
+    chart.draw(data, options);
+}
+ 
+
 /**
  * Fetches data from Java servlet and displays it in HTML div
  */
