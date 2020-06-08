@@ -44,6 +44,7 @@ hr {
     display: block;
     margin: 0 auto;
     padding: 0;
+    z-index: 0;
 }
 
 div.chart-div table {

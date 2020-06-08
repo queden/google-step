@@ -62,16 +62,16 @@ public class DataServlet extends HttpServlet {
 
     ArrayList<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results.asIterable()) {
-      // adds to comments list if "all" choice was chosen or if less than amount of requested
-      // comments
-      if (maxComments == -1 || comments.size() < maxComments) {
-        String name = (String) entity.getProperty("name");
-        String comment = (String) entity.getProperty("comment");
-        long timestamp = (long) entity.getProperty("timestamp");
+        // adds to comments list if "all" choice was chosen or if less than amount of requested comments
+        if (maxComments == -1 || comments.size() < maxComments) {
+            String name = (String) entity.getProperty("name");
+            Double mood = (Double) entity.getProperty("mood");
+            String comment = (String) entity.getProperty("comment");
+            long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment com = new Comment(name, comment, timestamp);
-        comments.add(com);
-      }
+            Comment com = new Comment(name, mood, comment, timestamp);
+            comments.add(com);
+        }
     }
 
     response.setContentType("application/json;");
@@ -88,11 +88,13 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = request.getParameter("user");
+    double mood = Double.parseDouble(request.getParameter("mood"));
     String comment = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
+    commentEntity.setProperty("mood", mood);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("timestamp", timestamp);
 
