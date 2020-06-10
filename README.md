@@ -5,7 +5,9 @@ This repo contains Caden's portfolio and STEP projects.
 ## Setup
 
 This project uses a protobuf to interact with Datastore. First, download the [Java protobuf compiler](https://github.com/protocolbuffers/protobuf/releases/tag/v3.12.3) to the root directory. Then, in the root directory, run 
-```protoc --java_out=portfolio/src/main/java  portfolio/src/main/java/com/google/sps/data/comment.proto``` 
+```
+protoc --java_out=portfolio/src/main/java  portfolio/src/main/java/com/google/sps/data/comment.proto
+``` 
 to generate a CommentProtos.java class.
 
 To run this project:
