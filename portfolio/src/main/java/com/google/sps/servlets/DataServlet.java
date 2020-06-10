@@ -67,15 +67,16 @@ public class DataServlet extends HttpServlet {
     Comments.Builder commentsBuilder = Comments.newBuilder();
     int commentCount = 0;
     for (Entity entity : results.asIterable()) {
-        // adds to comments list if "all" choice was chosen or if less than amount of requested comments
-        if (maxComments == -1 || commentCount < maxComments) {
-            // Retrieve Blob, convert to byte array, and parse back to Comment proto
-            Comment commentProto = Comment.parseFrom(((Blob) entity.getProperty("proto")).getBytes());
+      // adds to comments list if "all" choice was chosen or if less than amount of requested
+      // comments
+      if (maxComments == -1 || commentCount < maxComments) {
+        // Retrieve Blob, convert to byte array, and parse back to Comment proto
+        Comment commentProto = Comment.parseFrom(((Blob) entity.getProperty("proto")).getBytes());
 
-            commentsBuilder.addComments(commentProto);
+        commentsBuilder.addComments(commentProto);
 
-            commentCount++;
-        }
+        commentCount++;
+      }
     }
 
     Comments comments = commentsBuilder.build();
@@ -112,8 +113,7 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("proto", commentBlob);
     // Timestamp stored seperately for sorting on retrieval
-    commentEntity.setProperty("timestamp", timestamp); 
-
+    commentEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);

@@ -2,13 +2,12 @@
  * Draws Google Charts gauge to display average mood of all commenters
  */
 export function drawGauge() {
-    var moodSum = 0;
-    var commentCount = 0;
-
     fetch('/data?max-comments=all').then(response => response.json()).then((data) => {
-        for (var i = 0; i < data.comments_.length; i++) {
+        var moodSum = 0;
+        const commentCount = data.comments_.length;
+
+        for (var i = 0; i < commentCount; i++) {
             moodSum += data.comments_[i].mood_;
-            commentCount++;
         }
 
         var avgMood = 0;
@@ -118,7 +117,6 @@ function createComment(data) {
     }
     var mood = String(data.mood_).fontcolor(fontColor);
     moodElem.innerHTML = `Mood: ${mood}/100`;
-
 
     const dateElem = document.createElement('h5');
     const date = new Date(data.timestamp_);
