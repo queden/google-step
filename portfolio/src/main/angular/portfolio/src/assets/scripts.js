@@ -13,9 +13,13 @@ export function getData() {
         display.innerHTML = '';
 
         for (var i = 0; i < data.length; i++) {
-            display.appendChild(
-                createListElement(data[i])
-            );
+            display.appendChild(createComment(data[i]));
+        }
+
+        if (data === undefined || data.length == 0) {
+            const pTag = document.createElement('p');
+            pTag.innerText = "No comments to show : (";
+            display.appendChild(pTag);
         }
     });
 }
@@ -30,8 +34,29 @@ export function deleteData() {
     fetch(request).then(getData());
 }
 
-function createListElement(text) {
+function createComment(data) {
     const liElem = document.createElement('li');
-    liElem.innerText = text;
+    liElem.className = 'comment';
+    liElem.style.border = '1px solid black';
+    liElem.style.margin = '0.5%';
+
+    const userElem = document.createElement('h4');
+    userElem.innerText = data.name;
+
+    const dateElem = document.createElement('h5');
+    const date = new Date(data.timestamp); // Multiply by 1000 as JS counts in ms, not seconds
+    const dateStr = date.toString(); 
+    dateElem.innerText = dateStr;
+
+    const commElem = document.createElement('p');
+    commElem.readOnly = true;
+    commElem.innerText = data.comment;
+    
+    liElem.appendChild(userElem);
+    // liElem.appendChild(document.createElement('br'));
+    liElem.appendChild(dateElem); 
+    // liElem.appendChild(document.createElement('br'));
+    liElem.appendChild(commElem);
+
     return liElem;
 }

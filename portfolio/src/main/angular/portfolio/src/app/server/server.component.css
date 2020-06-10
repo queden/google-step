@@ -1,0 +1,41 @@
+p {
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+}
+
+.content {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+section {
+    margin: 10%;
+}
+
+textarea {
+    max-height: 300px;
+    max-width: 55%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.display li {
+    border: 1px solid black;
+}
+
+.comment {
+    border: 1px solid black;
+}
+
+h4, h5 {
+    margin: 0.5%;
+}
+
+hr {
+    margin: 2.5%;
+    margin-top: 4%;
+}
