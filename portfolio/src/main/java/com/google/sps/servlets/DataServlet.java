@@ -33,24 +33,26 @@ import com.google.sps.data.Comment;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  /** Retrieves all comments from Datastore and displays on website 
-  * @param request GET request
-  * @param response GET response
-  */
+  /**
+   * Retrieves all comments from Datastore and displays on website
+   *
+   * @param request GET request
+   * @param response GET response
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String maxCommentsString = request.getParameter("max-comments");
 
-    // Sets maxComments to a default value for if user selects choice of all 
-    // (which is only possible string value to select). Otherwise, sets maxComments to the int value of the string
+    // Sets maxComments to a default value for if user selects choice of all
+    // (which is only possible string value to select). Otherwise, sets maxComments to the int value
+    // of the string
     int maxComments = -1;
     if (!maxCommentsString.equals("all")) {
-        try {
-            maxComments = Integer.parseInt(maxCommentsString);
-        }
-        catch (Exception e) {
-            System.out.println("Error parsing selection");
-        }
+      try {
+        maxComments = Integer.parseInt(maxCommentsString);
+      } catch (Exception e) {
+        System.out.println("Error parsing selection");
+      }
     }
 
     // Queries datastore for all comments
@@ -60,15 +62,16 @@ public class DataServlet extends HttpServlet {
 
     ArrayList<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results.asIterable()) {
-        // adds to comments list if "all" choice was chosen or if less than amount of requested comments
-        if (maxComments == -1 || comments.size() < maxComments) {
-            String name = (String) entity.getProperty("name");
-            String comment = (String) entity.getProperty("comment");
-            long timestamp = (long) entity.getProperty("timestamp");
+      // adds to comments list if "all" choice was chosen or if less than amount of requested
+      // comments
+      if (maxComments == -1 || comments.size() < maxComments) {
+        String name = (String) entity.getProperty("name");
+        String comment = (String) entity.getProperty("comment");
+        long timestamp = (long) entity.getProperty("timestamp");
 
-            Comment com = new Comment(name, comment, timestamp);
-            comments.add(com);
-        }
+        Comment com = new Comment(name, comment, timestamp);
+        comments.add(com);
+      }
     }
 
     response.setContentType("application/json;");
@@ -76,10 +79,12 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Posts a comment to Datastore submitted by the user 
-  * @param request POST request
-  * @param response POST response
-  */
+  /**
+   * Posts a comment to Datastore submitted by the user
+   *
+   * @param request POST request
+   * @param response POST response
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = request.getParameter("user");

@@ -32,27 +32,28 @@ import java.util.ArrayList;
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
-    /** 
-    * Deletes all comments on websites when POST to /delete-data is called 
-    * @param request POST request
-    * @param response POST response
-    */
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Gets the keys of all comments
-        Query query = new Query("Comment").setKeysOnly();
+  /**
+   * Deletes all comments on websites when POST to /delete-data is called
+   *
+   * @param request POST request
+   * @param response POST response
+   */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Gets the keys of all comments
+    Query query = new Query("Comment").setKeysOnly();
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
-        // Deletes all comments
-        for (Entity entity : results.asIterable()) {
-            datastore.delete(entity.getKey());
-        }   
-
-        response.sendRedirect("/#connect");
-
-        response.setContentType("application/json;");
-        response.getWriter().println();
+    // Deletes all comments
+    for (Entity entity : results.asIterable()) {
+      datastore.delete(entity.getKey());
     }
+
+    response.sendRedirect("/#connect");
+
+    response.setContentType("application/json;");
+    response.getWriter().println();
+  }
 }
