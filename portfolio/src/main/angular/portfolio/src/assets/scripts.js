@@ -1,3 +1,52 @@
+export function drawGauge() {
+    var moodSum = 0;
+    var commentCount = 0;
+
+    fetch('/data?max-comments=all').then(response => response.json()).then((data) => {
+        for (var i = 0; i < data.length; i++) {
+            moodSum += data[i].mood;
+            commentCount++;
+        }
+
+        var avgMood = 0;
+        if (commentCount != 0) {
+            avgMood = moodSum / commentCount;
+        }
+
+        avgMood = Math.round(avgMood);
+
+        var data = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['Mood', avgMood]
+        ]);
+
+        var options = {
+            width: '100%', 
+            height: '100%',
+            greenFrom: 87.5, greenTo: 100,
+        };
+    
+        var chart = new google.visualization.Gauge(document.getElementById('chart-div'));
+
+        chart.draw(data, options);
+
+        const moodFeedback = document.getElementById('mood-feedback');
+        var fontColor = "green";
+        var message = "! Woohoo!"
+        if (avgMood <= 65) {
+            fontColor = "red";
+            message = "? Oh no! I hope everyone's okay."
+        }
+        else if (avgMood < 87.5) {
+            fontColor = "orange";
+            message = ". Not great, always here for you guys."
+        }
+        var mood = String(avgMood).fontcolor(fontColor);
+        moodFeedback.innerHTML = `Average mood is ${mood}${message}`;
+    });
+}
+ 
+
 /**
  * Fetches data from Java servlet and displays it in HTML div
  */
@@ -41,10 +90,27 @@ function createComment(data) {
     liElem.style.margin = '0.5%';
 
     const userElem = document.createElement('h4');
-    userElem.innerText = data.name;
+    if (!data.name || data.name.length === 0) {
+        userElem.innerText = 'anon';
+    }
+    else {
+        userElem.innerText = data.name;
+    }
+
+    const moodElem = document.createElement('h5');
+    var fontColor = "green";
+    if (data.mood <= 65) {
+        fontColor = "red";
+    }
+    else if (data.mood < 87.5) {
+        fontColor = "orange";
+    }
+    var mood = String(data.mood).fontcolor(fontColor);
+    moodElem.innerHTML = `Mood: ${mood}/100`;
+
 
     const dateElem = document.createElement('h5');
-    const date = new Date(data.timestamp); // Multiply by 1000 as JS counts in ms, not seconds
+    const date = new Date(data.timestamp);
     const dateStr = date.toString(); 
     dateElem.innerText = dateStr;
 
@@ -53,9 +119,8 @@ function createComment(data) {
     commElem.innerText = data.comment;
     
     liElem.appendChild(userElem);
-    // liElem.appendChild(document.createElement('br'));
+    liElem.appendChild(moodElem);
     liElem.appendChild(dateElem); 
-    // liElem.appendChild(document.createElement('br'));
     liElem.appendChild(commElem);
 
     return liElem;
