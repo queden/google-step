@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Blob;
 import java.io.IOException;
 import com.google.gson.Gson;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList; 
-import com.google.sps.data.Comment;
+import com.google.sps.data.CommentProtos.Comment;
+import com.google.sps.data.CommentProtos.Comments;
 
 /** Servlet that creates and retrieves comments on website */
 @WebServlet("/data")
@@ -41,6 +43,7 @@ public class DataServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
     String maxCommentsString = request.getParameter("max-comments");
 
     // Sets maxComments to a default value for if user selects choice of all
@@ -60,20 +63,23 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<Comment> comments = new ArrayList<Comment>();
+    // Builds comments protobuf and adds all stored comment protobufs to it
+    Comments.Builder commentsBuilder = Comments.newBuilder();
+    int commentCount = 0;
     for (Entity entity : results.asIterable()) {
       // adds to comments list if "all" choice was chosen or if less than amount of requested
       // comments
-      if (maxComments == -1 || comments.size() < maxComments) {
-        String name = (String) entity.getProperty("name");
-        Double mood = (Double) entity.getProperty("mood");
-        String comment = (String) entity.getProperty("comment");
-        long timestamp = (long) entity.getProperty("timestamp");
+      if (maxComments == -1 || commentCount < maxComments) {
+        // Retrieve Blob, convert to byte array, and parse back to Comment proto
+        Comment commentProto = Comment.parseFrom(((Blob) entity.getProperty("proto")).getBytes());
 
-        Comment com = new Comment(name, mood, comment, timestamp);
-        comments.add(com);
+        commentsBuilder.addComments(commentProto);
+
+        commentCount++;
       }
     }
+
+    Comments comments = commentsBuilder.build();
 
     response.setContentType("application/json;");
     String json = new Gson().toJson(comments);
@@ -90,13 +96,23 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = request.getParameter("user");
     double mood = Double.parseDouble(request.getParameter("mood"));
-    String comment = request.getParameter("comment");
+    String message = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
 
+    Comment.Builder commentProto = Comment.newBuilder();
+
+    commentProto.setName(name);
+    commentProto.setMood(mood);
+    commentProto.setMessage(message);
+    commentProto.setTimestamp(timestamp);
+
+    Comment commentBuilt = commentProto.build();
+    // Serialize comment in a Blob for storing in Datastore
+    Blob commentBlob = new Blob(commentBuilt.toByteArray());
+
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("name", name);
-    commentEntity.setProperty("mood", mood);
-    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("proto", commentBlob);
+    // Timestamp stored seperately for sorting on retrieval
     commentEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

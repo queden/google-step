@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package data;
+
+option java_package = "com.google.sps.data";
+option java_outer_classname = "CommentProtos";
+
+message Comment {
+    optional string name = 1;
+    required double mood = 2;
+    required string message = 3;
+    required int64 timestamp = 4;
+}
+
+message Comments {
+    repeated Comment comments = 1;
+}

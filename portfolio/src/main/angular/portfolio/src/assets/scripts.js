@@ -1,11 +1,13 @@
+/**
+ * Draws Google Charts gauge to display average mood of all commenters
+ */
 export function drawGauge() {
-    var moodSum = 0;
-    var commentCount = 0;
-
     fetch('/data?max-comments=all').then(response => response.json()).then((data) => {
-        for (var i = 0; i < data.length; i++) {
-            moodSum += data[i].mood;
-            commentCount++;
+        var moodSum = 0;
+        const commentCount = data.comments_.length;
+
+        for (var i = 0; i < commentCount; i++) {
+            moodSum += data.comments_[i].mood_;
         }
 
         var avgMood = 0;
@@ -30,6 +32,7 @@ export function drawGauge() {
 
         chart.draw(data, options);
 
+        // Change color of average mood relative to status
         const moodFeedback = document.getElementById('mood-feedback');
         var fontColor = "green";
         var message = "! Woohoo!"
@@ -61,11 +64,11 @@ export function getData() {
 
         display.innerHTML = '';
 
-        for (var i = 0; i < data.length; i++) {
-            display.appendChild(createComment(data[i]));
+        for (var i = 0; i < data.comments_.length; i++) {
+            display.appendChild(createComment(data.comments_[i]));
         }
 
-        if (data === undefined || data.length == 0) {
+        if (data.comments_ === undefined || data.comments_.length == 0) {
             const pTag = document.createElement('p');
             pTag.innerText = "No comments to show : (";
             display.appendChild(pTag);
@@ -73,6 +76,9 @@ export function getData() {
     });
 }
 
+/**
+ * Deletes all comments
+ */
 export function deleteData() {
     console.log("Posting to /delete-data");
 
@@ -83,6 +89,9 @@ export function deleteData() {
     fetch(request).then(getData());
 }
 
+/**
+ * Creates a comment list element with a name, mood, time, and message
+ */
 function createComment(data) {
     const liElem = document.createElement('li');
     liElem.className = 'comment';
@@ -90,33 +99,33 @@ function createComment(data) {
     liElem.style.margin = '0.5%';
 
     const userElem = document.createElement('h4');
-    if (!data.name || data.name.length === 0) {
+    if (!data.name_ || data.name_.length === 0) {
         userElem.innerText = 'anon';
     }
     else {
-        userElem.innerText = data.name;
+        userElem.innerText = String.fromCharCode.apply(String, data.name_.bytes);
     }
 
+    // Change color of commenter's mood relative to status
     const moodElem = document.createElement('h5');
     var fontColor = "green";
-    if (data.mood <= 65) {
+    if (data.mood_ <= 65) {
         fontColor = "red";
     }
-    else if (data.mood < 87.5) {
+    else if (data.mood_ < 87.5) {
         fontColor = "orange";
     }
-    var mood = String(data.mood).fontcolor(fontColor);
+    var mood = String(data.mood_).fontcolor(fontColor);
     moodElem.innerHTML = `Mood: ${mood}/100`;
 
-
     const dateElem = document.createElement('h5');
-    const date = new Date(data.timestamp);
+    const date = new Date(data.timestamp_);
     const dateStr = date.toString(); 
     dateElem.innerText = dateStr;
 
     const commElem = document.createElement('p');
     commElem.readOnly = true;
-    commElem.innerText = data.comment;
+    commElem.innerText = String.fromCharCode.apply(String, data.message_.bytes);
     
     liElem.appendChild(userElem);
     liElem.appendChild(moodElem);
