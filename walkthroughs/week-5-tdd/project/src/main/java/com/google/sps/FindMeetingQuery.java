@@ -52,7 +52,7 @@ public final class FindMeetingQuery {
       if (allAttSlots.size() > 0) {
         return allAttSlots;
       }
-      else if (request.getAttendees().size() > 0) {
+      else if (mandatoryAtts.size() > 0) {
         return query(events, request, request.getAttendees());
       }
       else {
