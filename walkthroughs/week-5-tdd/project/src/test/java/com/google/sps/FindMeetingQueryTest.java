@@ -367,8 +367,8 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void noMandatoryWithGaps() {
-    // Have one person, but make it so that there is not enough room at any point in the day to
-    // have the meeting.
+    // Have two optional attendees and no mandatory attendees with two gaps in their schedule
+    // for a possible meeting.
     //
     // Events  : |--A--|    |-B-|  
     // Day     : |---------------------|
@@ -395,8 +395,7 @@ public final class FindMeetingQueryTest {
   
   @Test
   public void noMandatoryWithoutGaps() {
-    // Have one person, but make it so that there is not enough room at any point in the day to
-    // have the meeting.
+    // Have two optional attendees with no gaps in their day for a meeting. 
     //
     // Events  : |--A--||------B-------|  
     // Day     : |---------------------|
