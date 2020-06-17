@@ -30,68 +30,95 @@ public final class FindMeetingQuery {
   * considered.
   */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-      // Get a set of all (mandatory and optional) attendees
-      Collection<String> allAttendees = new HashSet<>();
-      Collection<String> mandatoryAtts = request.getAttendees();
-      Collection<String> optAtts = request.getOptionalAttendees();
-      
-      for (String attendee : mandatoryAtts) {
-        allAttendees.add(attendee);
-      }
+    List<TimeWithAttendees> eventTimes = new ArrayList<TimeRange>();
+    // First find all events with attendees, add their time range and conflicts to a list
+    for (Event event : events) {
+      TimeWithAttendees timeWithAttendees = new TimeWithAttendees();
+      timeWithAttendees.range = event.getWhen();
 
-      for (String optAttendee : optAtts) {
-        allAttendees.add(optAttendee);
-      }
-
-      // Get what time slots satsifies all attendees schedules
-      Collection<TimeRange> allAttSlots = query(events, request, allAttendees);
-
-      // If timeslots are available that satisfy all attendees,
-      // those are returned. Otherwise, only slots that satisfy
-      // mandatory attendees are returned
-      if (allAttSlots.size() > 0) {
-        return allAttSlots;
-      }
-      else if (mandatoryAtts.size() > 0) {
-        return query(events, request, request.getAttendees());
+      if (!Collections.disjoint(event.getAttendees(), request.getAttendees())) {
+        timeWithAttendees.noMandatoryConlicts = true;
       }
       else {
-        // No timeslots that satisfy everyone nor just mandatory attendees
-        return Arrays.asList();
-      }
-  }
-
-  private Collection<TimeRange> query(Collection<Event> events, MeetingRequest request, Collection<String> attendees) {
-    List<TimeRange> eventTimes = new ArrayList<TimeRange>();
-    // First find all events with attendees, add their time range to a list
-    for (Event event : events) {
-      if (!Collections.disjoint(event.getAttendees(), attendees)) {
-        eventTimes.add(event.getWhen());
-      }
-    }
-
-    // Sort time range list by start time
-    Collections.sort(eventTimes, TimeRange.ORDER_BY_START);
-
-    // Starting from beginning of day, look for time ranges between events with
-    // at least the amount of time needed
-    int lastTime = TimeRange.START_OF_DAY;
-    Collection<TimeRange> possibleTimes = new ArrayList<TimeRange>();
-    for (TimeRange time : eventTimes) {
-      if (time.start() - lastTime >= request.getDuration()) {
-        possibleTimes.add(TimeRange.fromStartEnd(lastTime, time.start(), false));
+        timeWithAttendees.noMandatoryConlicts = false;
       }
 
-      if (time.end() >= lastTime) {
-        lastTime = time.end();
+      Collection<String> optionalAttendees = request.getOptionalAttendees();
+
+      for (String attendee : optionalAttendees) {
+        if (event.getAttendees().contains(attendee)) {
+          timeWithAttendees.numOfOptionalConflicts++;
+        }
+      }
+      
+      if (!timeWithAttendees.noMandatoryConlicts && numOfOptionalConflicts > 0) {
+        eventTimes.add(timeWithAttendees);
       }
     }
 
-    if (lastTime < TimeRange.END_OF_DAY
-        && (TimeRange.END_OF_DAY - lastTime) >= request.getDuration()) {
-      possibleTimes.add(TimeRange.fromStartEnd(lastTime, TimeRange.END_OF_DAY, true));
+    int[] dayArr = new int[1440];
+
+    for (TimeWithAttendees eventTime : eventTimes) {
+      int numToAdd = 0;
+
+      // if there are mandatory conflicts, set to -1
+      if (!eventTime.noMandatoryConlicts) {
+        numToAdd = -1;
+      }
+      else {
+        // if no mandatory conflicts, add num of optional attendees that can attend
+        numToAdd = request.getOptionalAttendees().size() - eventTime.numOfOptionalConflicts; 
+      }
+
+      int rangeStart = eventTime.range.start();
+      int rangeEnd = eventTime.range.end();
+      for (int i = rangeStart; i <= rangeEnd; i++) {
+        if (dayArr[i] != -1) {
+            dayArr[i] += numToAdd;
+        } 
+      }
     }
 
-    return possibleTimes;
+    for (int i = 0; i < dayArr.length; i++) {
+      if (dayArr[i] == 0) {
+        dayArr[i] = request.getOptionalAttendees().size()
+      }
+    }
+
+
+    
+   }
+    
+  /** Holds an event's time range, if there are no mandatory conflicts, and how many optional conflicts there are */
+  class TimeWithAttendees {
+    public TimeRange range;
+    public Boolean noMandatoryConlicts;
+    public int numOfOptionalConflicts;
   }
 }
+
+
+
+// // Sort time range list by start time
+//     Collections.sort(eventTimes, TimeRange.ORDER_BY_START);
+
+//     // Starting from beginning of day, look for time ranges between events with
+//     // at least the amount of time needed
+//     int lastTime = TimeRange.START_OF_DAY;
+//     Collection<TimeRange> possibleTimes = new ArrayList<TimeRange>();
+//     for (TimeRange time : eventTimes) {
+//       if (time.start() - lastTime >= request.getDuration()) {
+//         possibleTimes.add(TimeRange.fromStartEnd(lastTime, time.start(), false));
+//       }
+
+//       if (time.end() >= lastTime) {
+//         lastTime = time.end();
+//       }
+//     }
+
+//     if (lastTime < TimeRange.END_OF_DAY
+//         && (TimeRange.END_OF_DAY - lastTime) >= request.getDuration()) {
+//       possibleTimes.add(TimeRange.fromStartEnd(lastTime, TimeRange.END_OF_DAY, true));
+//     }
+
+//     return possibleTimes;
