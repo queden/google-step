@@ -83,8 +83,7 @@ public final class FindMeetingQuery {
         curTime++;
       } else if (curTime == MINS_IN_DAY - 1) {
         // If it is the last minute of the day and current time range has a valid duration, adds it
-        // to
-        // list of possible times
+        // to list of possible times
         if ((dayArr[curTime] == dayArr[curTime - 1]) && (curDuration >= request.getDuration())) {
           Pair timeAndOptAttendees =
               Pair.fromTimeAttendees(curDuration, curTime, optionalAttendeesAvailable);
@@ -157,11 +156,11 @@ public final class FindMeetingQuery {
     for (TimeWithAttendees eventTime : eventTimes) {
       int numToAdd = 0;
 
-      // if there are mandatory conflicts, set to -1
+      // If there are mandatory conflicts, set to -1
       if (!eventTime.noMandatoryConlicts) {
         numToAdd = -1;
       } else {
-        // if no mandatory conflicts, add num of optional attendees that can attend
+        // If no mandatory conflicts, add num of optional attendees that can attend
         numToAdd = eventTime.numOfOptionalConflicts;
       }
 
