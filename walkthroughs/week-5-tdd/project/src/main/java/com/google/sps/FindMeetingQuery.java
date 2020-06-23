@@ -36,7 +36,7 @@ public final class FindMeetingQuery {
 
     List<TimeRange> optimalTimes = new ArrayList<TimeRange>();
 
-    // Finds the events that allow for the most optional attendees to attend
+    // Finds the events that allow for the most optional attendees to attend.
     if (possibleTimes.size() == 1) {
       optimalTimes.add(possibleTimes.get(0).getTimeRange());
     } else if (possibleTimes.size() > 0) {
@@ -63,38 +63,33 @@ public final class FindMeetingQuery {
 
     List<Pair> possibleTimes = new ArrayList<Pair>();
 
-    int curTime = 0;
     int curDuration = 0;
 
     // Tracks if there is a timeslot that is too short to work for mandatory attendees, but may be
-    // valid when
-    // paired with a neighboring time range and ignoring its optional attendees
+    // valid when paired with a neighboring time range and ignoring its optional attendees.
     Boolean possibleIgnoreOptional = false;
-    // Duration of last time slot if we may need to ignore optional attendees to make it work
+    // Duration of last time slot if we may need to ignore optional attendees to make it work.
     int lastDuration = 0;
 
     // Iterates through the day array and creates TimeRanges for each time range that satisfies the
-    // meeting request
-    while (curTime < MINS_IN_DAY) {
+    // meeting request.
+    for (int curTime = 0; curTime < MINS_IN_DAY; curTime++) {
       int optionalAttendeesAvailable = request.getOptionalAttendees().size() - dayArr[curTime];
 
-      if (dayArr[curTime] == -1) { 
-        // If there are conflicts for mandatory attendees, skips over the minute
-        curTime++;
+      if (dayArr[curTime] == -1) {
+        // If there are conflicts for mandatory attendees, skips over the minute.
       } else if (curTime == MINS_IN_DAY - 1) {
         // If it is the last minute of the day and current time range has a valid duration, adds it
-        // to list of possible times
+        // to list of possible times.
         if ((dayArr[curTime] == dayArr[curTime - 1]) && (curDuration >= request.getDuration())) {
           Pair timeAndOptAttendees =
               Pair.fromTimeAttendees(curDuration, curTime, optionalAttendeesAvailable);
           possibleTimes.add(timeAndOptAttendees);
         }
-        curTime++;
       } else if (dayArr[curTime] == dayArr[curTime + 1]) {
         // If the next minute has the same amount of attendees available as the current minute (thus
-        // being apart of the same time range), increments the duration of the current time range
+        // being apart of the same time range), increments the duration of the current time range.
         curDuration++;
-        curTime++;
       } else if (curDuration + 1 >= request.getDuration()) {
         // If the next minute is not part of the same time range, and the current time range's
         // duration is valid, adds it to the list of possible times.
@@ -103,14 +98,13 @@ public final class FindMeetingQuery {
         possibleTimes.add(timeAndOptAttendees);
         possibleIgnoreOptional = false;
         curDuration = 0;
-        curTime++;
       } else {
         // If the current duration is too short to be valid, but, when optional attendees are
-        // ignored, could pair with a previous timeslot to be valid for mandatory attendees, the 
-        // time range is added to the list
+        // ignored, could pair with a previous timeslot to be valid for mandatory attendees, the
+        // time range is added to the list.
         if (possibleIgnoreOptional) {
           int totalDuration =
-              curDuration + lastDuration + 1; // duration of current and previous time ranges
+              curDuration + lastDuration + 1; // Duration of current and previous time ranges.
 
           Pair timeAndOptAttendees =
               Pair.fromTimeAttendees(totalDuration, curTime, optionalAttendeesAvailable);
@@ -124,18 +118,17 @@ public final class FindMeetingQuery {
         } else if (optionalAttendeesAvailable == 0
             || request.getOptionalAttendees().size() - dayArr[curTime + 1] == 0) {
           // If the current time slot works for no optional attendees, or the next time slot works
-          // for no attendees, lastDuration is stored to see if, when paired with the next time 
-          // ranges duration, it becomes a valid time range
+          // for no attendees, lastDuration is stored to see if, when paired with the next time
+          // ranges duration, it becomes a valid time range.
           possibleIgnoreOptional = true;
           lastDuration = curDuration;
         }
         curDuration = 0;
-        curTime++;
       }
     }
 
     // Sorts the possible times by amount of optional attendees that can attend, with
-    // the time ranges that allow the most optional attendees to attend to go to the front
+    // the time ranges that allow the most optional attendees to attend to go to the front.
     Collections.sort(possibleTimes, Pair.ORDER_BY_ATTENDEES);
 
     return possibleTimes;
@@ -144,9 +137,8 @@ public final class FindMeetingQuery {
   /**
    * Returns an array representation of a day, with each index representing a minute, and the value
    * at each meeting representing how many optional attendees have a conflict at that time. If a
-   * minute does not work for all mandatory attendees, the value will be -1. If it is 0, it works
-   * for all mandatory attendees and all optional attendees. Positive values reflect the number of
-   * optional attendees that have conflict.
+   * minute does not work for all mandatory attendees, the value will be -1. Non-negative values
+   * reflect the number of optional attendees that have conflict.
    */
   private int[] getDayArray(Collection<Event> events, MeetingRequest request) {
     List<TimeWithAttendees> eventTimes = getConflictingEvents(events, request);
@@ -156,20 +148,18 @@ public final class FindMeetingQuery {
     for (TimeWithAttendees eventTime : eventTimes) {
       int numToAdd = 0;
 
-      // If there are mandatory conflicts, set to -1
+      // If there are mandatory conflicts, set to -1.
       if (!eventTime.noMandatoryConlicts) {
         numToAdd = -1;
       } else {
-        // If no mandatory conflicts, add num of optional attendees that can attend
+        // If no mandatory conflicts, add num of optional attendees that can attend.
         numToAdd = eventTime.numOfOptionalConflicts;
       }
 
       int rangeStart = eventTime.range.start();
       int rangeEnd = eventTime.range.end();
       for (int i = rangeStart; i < rangeEnd; i++) {
-        if (dayArr[i] != -1) {
-          dayArr[i] += numToAdd;
-        }
+        dayArr[i] += (dayArr[i] < 0) ? 0 : numToAdd;
       }
     }
 
@@ -190,22 +180,22 @@ public final class FindMeetingQuery {
       timeWithAttendees.range = event.getWhen();
 
       // If the no mandatory attendees are at the current event, noMandatory conflicts is
-      // set to true
+      // set to true.
       timeWithAttendees.noMandatoryConlicts =
           Collections.disjoint(event.getAttendees(), request.getAttendees());
 
       Collection<String> optionalAttendees = request.getOptionalAttendees();
 
-      // numOfOptionalConflicts is set to the number of optional attendees 
-      // attending this event
+      // numOfOptionalConflicts is set to the number of optional attendees
+      // attending this event.
       for (String attendee : optionalAttendees) {
         if (event.getAttendees().contains(attendee)) {
           timeWithAttendees.numOfOptionalConflicts++;
         }
       }
 
-      // Adds to the conflicting event list if there are conflicts for either mandatory of 
-      // optional attendees
+      // Adds to the conflicting event list if there are conflicts for either mandatory of
+      // optional attendees.
       if (!timeWithAttendees.noMandatoryConlicts || timeWithAttendees.numOfOptionalConflicts > 0) {
         eventTimes.add(timeWithAttendees);
       }
@@ -216,7 +206,7 @@ public final class FindMeetingQuery {
 
   /**
    * Holds an event's time range, whether there are no mandatory conflicts, and how many optional
-   * conflicts there are
+   * conflicts there are.
    */
   class TimeWithAttendees {
     public TimeRange range;

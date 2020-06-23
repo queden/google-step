@@ -51,7 +51,7 @@ public final class Pair {
       new Comparator<Pair>() {
         @Override
         public int compare(Pair a, Pair b) {
-          return -1 * Integer.compare(a.getAttendees(), b.getAttendees());
+          return Integer.compare(b.getAttendees(), a.getAttendees());
         }
       };
 }
