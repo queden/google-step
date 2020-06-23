@@ -50,9 +50,6 @@ public final class FindMeetingQuery {
       }
     }
 
-    for (TimeRange ot : optimalTimes)
-        System.out.println(ot);
-
     return optimalTimes;
   }
 
