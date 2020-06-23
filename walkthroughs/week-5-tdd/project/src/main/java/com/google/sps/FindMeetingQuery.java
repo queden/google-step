@@ -50,6 +50,9 @@ public final class FindMeetingQuery {
       }
     }
 
+    for (TimeRange ot : optimalTimes)
+        System.out.println(ot);
+
     return optimalTimes;
   }
 
@@ -64,6 +67,8 @@ public final class FindMeetingQuery {
     List<Pair> possibleTimes = new ArrayList<Pair>();
 
     int curDuration = 0;
+
+    long requestDuration = request.getDuration();
 
     // Tracks if there is a timeslot that is too short to work for mandatory attendees, but may be
     // valid when paired with a neighboring time range and ignoring its optional attendees.
@@ -81,7 +86,7 @@ public final class FindMeetingQuery {
       } else if (curTime == MINS_IN_DAY - 1) {
         // If it is the last minute of the day and current time range has a valid duration, adds it
         // to list of possible times.
-        if ((dayArr[curTime] == dayArr[curTime - 1]) && (curDuration >= request.getDuration())) {
+        if ((dayArr[curTime] == dayArr[curTime - 1]) && (curDuration + 1 >= requestDuration)) {
           Pair timeAndOptAttendees =
               Pair.fromTimeAttendees(curDuration, curTime, optionalAttendeesAvailable);
           possibleTimes.add(timeAndOptAttendees);
@@ -90,7 +95,7 @@ public final class FindMeetingQuery {
         // If the next minute has the same amount of attendees available as the current minute (thus
         // being apart of the same time range), increments the duration of the current time range.
         curDuration++;
-      } else if (curDuration + 1 >= request.getDuration()) {
+      } else if (curDuration + 1 >= requestDuration) {
         // If the next minute is not part of the same time range, and the current time range's
         // duration is valid, adds it to the list of possible times.
         Pair timeAndOptAttendees =
@@ -109,7 +114,7 @@ public final class FindMeetingQuery {
           Pair timeAndOptAttendees =
               Pair.fromTimeAttendees(totalDuration, curTime, optionalAttendeesAvailable);
 
-          if (timeAndOptAttendees.getTimeRange().duration() >= request.getDuration()) {
+          if (timeAndOptAttendees.getTimeRange().duration() >= requestDuration) {
             possibleTimes.add(timeAndOptAttendees);
           }
 
