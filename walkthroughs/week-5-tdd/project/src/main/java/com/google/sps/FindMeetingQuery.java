@@ -39,7 +39,7 @@ public final class FindMeetingQuery {
     // Finds the events that allow for the most optional attendees to attend.
     if (possibleTimes.size() == 1) {
       optimalTimes.add(possibleTimes.get(0).getTimeRange());
-    } else if (possibleTimes.size() > 0) {
+    } else if (possibleTimes.size() > 1) {
       int maxOptionalAttendees = possibleTimes.get(0).getAttendees();
       int i = 0;
 
